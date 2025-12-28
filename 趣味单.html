@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味玩法单</title>
+    <style>
+        body {
+            color: red;
+            background-color: white;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        
+        
+        .back-link:hover {
+            background-color: #ffeaea;
+        }
+        
+        /* 导航菜单容器 - 居中显示 */
+        .nav-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            box-sizing: border-box;
+        }
+        
+        /* 导航菜单样式 */
+        #menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        /* 每个导航项样式 - 等分 */
+        #menu li {
+            flex: 1;
+            text-align: center;
+            min-width: 0; /* 防止内容溢出 */
+        }
+        
+        /* 链接样式 */
+        #menu .link {
+            display: block;
+            padding: 12px 5px;
+            color: red;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: #f5f5f5;
+            border: 2px solid red;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        #menu .link:hover {
+            background-color: #ffeaea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+        }
+        
+        /* 选中状态 */
+        #menu .link.active {
+            background-color: #ff4444;
+            color: white;
+            border-color: #ff0000;
+        }
+        
+        /* 图片容器样式 */
+        .image-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 30px auto;
+            text-align: center;
+            padding: 0; /* 移除内边距 */
+            background-color: white;
+            border: none; /* 移除边框 */
+            box-shadow: none; /* 移除阴影 */
+            box-sizing: border-box;
+        }
+        
+        /* 图片显示样式 */
+        #displayed-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+        
+        /* 底部白色方框 - 修改：与图片大小一致，四周多出15px */
+        .image-bottom-box {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px; /* 上下左右各15px内边距 */
+            margin: 15px auto 0; /* 与图片保持15px距离 */
+            width: fit-content;
+            min-width: 150px;
+            box-sizing: border-box;
+        }
+        
+        /* 图片信息样式 */
+        .image-info {
+            color: #666;
+            font-size: 14px;
+            padding: 5px 0;
+            text-align: center;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1400px) {
+            .back-link,
+            .nav-wrapper,
+            .image-container {
+                max-width: 95%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #menu {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            #menu li {
+                flex: 0 0 calc(50% - 5px);
+            }
+            
+            .image-container {
+                margin: 20px auto;
+            }
+            
+            .image-bottom-box {
+                padding: 12px;
+                margin: 12px auto 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #menu li {
+                flex: 0 0 100%;
+            }
+            
+            .image-bottom-box {
+                padding: 10px;
+                margin: 10px auto 0;
+                min-width: 120px;
+            }
+            
+            .back-link {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 返回链接 - 与导航栏同宽 -->
+    <a href="C:\Users\Administrator\Desktop\PCX俱乐部护航.html" class="back-link">点击返回</a>
+    
+    <div class="nav-wrapper">
+        <nav>
+            <ul id="menu">
+                <li><a href="#" class="link active" data-image-src="C:\Users\Administrator\Downloads\mmexport1766915300507.jpg">🔴bingo单</a></li>
+                <li><a href="#" class="link" data-image-src="C:\Users\Administrator\Downloads\mmexport1766915295961.jpg">🔴云顶之洲单</a></li>
+                <li><a href="#" class="link" data-image-src="C:\Users\Administrator\Downloads\mmexport1766915314619.jpg">🔴趣味合集1</a></li>
+                <li><a href="#" class="link" data-image-src="C:\Users\Administrator\Downloads\mmexport1766915285286.jpg">🔴趣味合集2</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- 图片容器 -->
+    <div class="image-container" id="imageContainer">
+        <!-- 初始显示按钮1的图片 -->
+        <img id="displayed-image" src="C:\Users\Administrator\Downloads\mmexport1766915300507.jpg" alt="bingo单">
+
+    </div>
+
+    <script>
+        // 获取所有元素
+        const links = document.querySelectorAll('.link');
+        const displayedImage = document.getElementById('displayed-image');
+        const imageInfo = document.getElementById('imageInfo');
+        const imageContainer = document.getElementById('imageContainer');
+        const imageBottomBox = document.getElementById('imageBottomBox');
+        const navWrapper = document.querySelector('.nav-wrapper');
+        const backLink = document.querySelector('.back-link');
+        
+        // 同步所有元素宽度的函数
+        function syncElementWidths() {
+            // 获取图片的实际宽度
+            const imageWidth = displayedImage.clientWidth;
+            
+            if (imageWidth > 0) {
+                // 设置底部方框宽度：图片宽度 + 30px（左右各15px）
+                imageBottomBox.style.width = (imageWidth + 30) + 'px';
+                
+                // 设置导航栏宽度与图片容器一致
+                const containerWidth = imageContainer.clientWidth;
+                if (containerWidth > 0) {
+                    navWrapper.style.width = containerWidth + 'px';
+                    backLink.style.width = containerWidth + 'px';
+                    
+                    // 计算每个导航按钮的宽度
+                    const totalGap = 15 * 3; // 3个间隙，每个15px
+                    const buttonWidth = (containerWidth - totalGap) / 4;
+                    
+                    // 确保按钮宽度合理
+                    if (buttonWidth > 50) {
+                        const menuItems = document.querySelectorAll('#menu li');
+                        menuItems.forEach(item => {
+                            item.style.flex = `0 0 ${buttonWidth}px`;
+                        });
+                    }
+                }
+            }
+        }
+        
+        // 显示图片的函数
+        function showImage(imageSrc, linkElement) {
+            // 更新图片源
+            displayedImage.src = imageSrc;
+            
+            // 更新选中状态
+            links.forEach(l => l.classList.remove('active'));
+            if (linkElement) {
+                linkElement.classList.add('active');
+            }
+            
+            // 更新图片alt属性和底部信息
+            const imageName = linkElement ? linkElement.textContent.replace('🔴 ', '') : '按钮1';
+            displayedImage.alt = imageName;
+            imageInfo.textContent = `当前：${imageName}`;
+            
+            // 图片加载后调整布局
+            displayedImage.onload = function() {
+                syncElementWidths();
+            };
+            
+            // 触发一次加载事件（如果图片已缓存）
+            if (displayedImage.complete) {
+                displayedImage.onload();
+            }
+        }
+        
+        // 为每个链接添加点击事件
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const imageSrc = this.getAttribute('data-image-src');
+                
+                // 检查图片路径是否为空
+                if (!imageSrc) {
+                    imageInfo.textContent = "请先为此按钮设置图片路径";
+                    imageInfo.style.color = "#ff4444";
+                    return;
+                }
+                
+                // 显示图片
+                showImage(imageSrc, this);
+                imageInfo.style.color = "#666";
+            });
+        });
+        
+        // 图片加载错误处理
+        displayedImage.addEventListener('error', function() {
+            console.error('图片加载失败:', this.src);
+            imageInfo.textContent = "图片加载失败，请检查路径";
+            imageInfo.style.color = "#ff4444";
+        });
+        
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            // 确保按钮1是活跃状态
+            const firstLink = links[0];
+            if (firstLink) {
+                firstLink.classList.add('active');
+                
+                // 显示按钮1的图片
+                const imageSrc = firstLink.getAttribute('data-image-src');
+                if (imageSrc) {
+                    // 设置初始图片
+                    displayedImage.src = imageSrc;
+                    displayedImage.alt = firstLink.textContent.replace('🔴 ', '');
+                    imageInfo.textContent = `当前：${firstLink.textContent.replace('🔴 ', '')}`;
+                    
+                    // 图片加载后调整
+                    displayedImage.onload = function() {
+                        syncElementWidths();
+                    };
+                    
+                    // 如果图片已缓存，立即执行
+                    if (displayedImage.complete) {
+                        displayedImage.onload();
+                    } else {
+                        // 如果图片未缓存，延迟执行
+                        setTimeout(syncElementWidths, 100);
+                    }
+                }
+            }
+        });
+        
+        // 窗口大小改变时，调整布局
+        window.addEventListener('resize', function() {
+            syncElementWidths();
+        });
+        
+        // 初始同步一次
+        setTimeout(syncElementWidths, 50);
+        
+        // 监听图片尺寸变化
+        let lastImageWidth = 0;
+        const imageObserver = new ResizeObserver(function() {
+            const currentWidth = displayedImage.clientWidth;
+            if (currentWidth !== lastImageWidth) {
+                lastImageWidth = currentWidth;
+                syncElementWidths();
+            }
+        });
+        
+        if (displayedImage) {
+            imageObserver.observe(displayedImage);
+        }
+    </script>
+</body>
+</html>
